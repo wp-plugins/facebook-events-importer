@@ -145,12 +145,15 @@ try {
 	        'ID' => $post_id,
 			'post_title' => wp_strip_all_tags($e->name),
 			'post_content' => wp_strip_all_tags($e->description),
-			'tags_input' => $event_tag,
+			'tags_input' => $category,
 					 );
              
              if($eventImage != $curEventImage ){insert_image($eventImage,$post_id); }
 			 
 	  		 wp_update_post( $post_information );
+	  		 
+	  		 wp_set_post_tags( $post_id, $category, true );
+
 	   endwhile;
 	 }else{ 
 	 $post_information = array(
@@ -158,7 +161,7 @@ try {
 			'post_title' => wp_strip_all_tags($e->name),
 			'post_content' => wp_strip_all_tags($e->description),
 			'post_status' => 'publish',
-			'tags_input' => $event_tag,
+			'tags_input' => $category,
 					 );		
 	        
 	         $post_id = wp_insert_post( $post_information ); 

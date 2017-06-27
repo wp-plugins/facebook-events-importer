@@ -55,6 +55,8 @@
 		$fbe_query = new WP_Query( $args );
 		if( $fbe_query->have_posts() ): 
 		while ( $fbe_query->have_posts() ) : $fbe_query->the_post();
+
+		  $eventType = '';	
 		  $event_title = get_the_title();
 		  $event_desc =  get_the_content();
 		  $event_image = get_fbe_image('cover');
@@ -114,7 +116,7 @@
   <div class="fbegrid fbegrid-pad"> 
    <div class="col-1-1"> 
    <?php if(get_option("fbe_posts_per_page") != 'all'){	
- 	_e( '<div id="load_more_fbe" data-id="1">Load More Events</div>');
+ 	_e( '<div id="load_more_fbe" data-id="1"></div>');
 	}
 	?>	
 </div>
