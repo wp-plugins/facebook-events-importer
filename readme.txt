@@ -2,9 +2,9 @@
 Author: Volk
 Contributors: jprescher
 Donate link: http://wpfbevents.com/
-Tags: Facebook, events, import
+Tags: facebook events, Facebook, events, import
 Requires at least: 4.1.1
-Tested up to: 4.2
+Tested up to: 4.7.2
 Stable tag: 4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -22,11 +22,13 @@ Using Facebook Events feature is a great way to get the word out. Having to doub
 <ul>
 <li>Facebook Event Custom Post Type</li>
 <li>Unlimited Facebook Page Imports</li>
+<li>Event slider and list Shortcodes</li> 
 <li>Automatic Facebook Event Updates</li>
 <li>Free Code Examples – wpfbevents.com/code-examples</li>
 <li>No Coding Required with add-ons</li>
 <li>Frontend Events Widget with with add-ons</li>
 <li>Frontend Event Templates Mobile Friendly Layouts with add-ons</li>
+<li>Need Support? wpfbevents.com/support </li>
 </ul>
 
 
@@ -40,6 +42,23 @@ Using Facebook Events feature is a great way to get the word out. Having to doub
 5. Upgrading to the pro features gives you access to the templates and widget
 
 == Changelog ==
+
+= 2.4.1 =
+Fixed js console error (pro version). 
+
+
+= 2.4.0 =
+New! WordPress Tags added
+New! Events now auto load on scroll
+New! Event Schema Tags added
+New! Swipe Slider 
+Improved Performance 
+
+[wpfbevents_slider show="10"]
+[wpfbevents show="10"]
+
+= 2.3.8 =
+* Plugin update after WordPress 4.3.1
 
 = 2.3.7 =
 
@@ -124,6 +143,11 @@ Facebook App configuration.
 
 
 == Upgrade Notice ==
+= 2.4.0 = 
+New Features! And performance update.
+
+= 2.3.8 =
+* Redundant check for WordPress 4.3.1
 
 = 2.3.7 =
 * Removed is_date_only option due to Facebook API update to 2.4
@@ -199,6 +223,12 @@ Localized ajax scripts for non-root installation.
 Fixed bug fixed with end_date returning null.  
 
 == Frequently Asked Questions ==
+
+
+= Is there shortcode support? =
+Yes! There are two usable shortcodes.
+[wpfbevents_slider show="10"] 
+[wpfbevents show="10"]
 
 = 404 on events page? =
 

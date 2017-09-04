@@ -22,7 +22,7 @@ function create_fbe_post_event() {
       'menu_icon' =>  'dashicons-calendar', 
   	  'rewrite' => array('slug' => $slug),
   	  'supports' => array('title','editor','thumbnail','comments','tags'),
-      //'taxonomies' => array('post_tag')
+      'taxonomies' => array('post_tag')
     )
   );
 

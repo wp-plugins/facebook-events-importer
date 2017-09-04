@@ -1,5 +1,6 @@
 <?php get_header(); ?>
 <?php if (have_posts()) :
+
 $fbe800 = get_option("facebook_events_pro_version");  if($fbe800){  }else{ exit; }
    while (have_posts()) :
       the_post();
@@ -9,7 +10,12 @@ $fbe800 = get_option("facebook_events_pro_version");  if($fbe800){  }else{ exit;
 		   $event_desc = apply_filters( 'the_content', get_the_content() );
 		  
 		  $event_image = get_fbe_image('cover');
+		  
+		  
+		  //Translate variable to turkish
+	
 		  $event_start_date = get_fbe_date('event_starts','M j, Y');
+		
 		  $event_start_time = get_fbe_date('start_time','g:i a');
 		  $event_end_date = get_fbe_date('event_ends','M j, Y');
 		  $event_end_time = get_fbe_date('end_time','g:ia');
@@ -26,23 +32,35 @@ $fbe800 = get_option("facebook_events_pro_version");  if($fbe800){  }else{ exit;
 	      $geo_latitude = get_fbe_field( 'geo_latitude');
 	      $geo_longitude = get_fbe_field( 'geo_longitude');
 	      $event_image = get_fbe_image('full'); 
+	      
 ?> 
+<div class="event-wrapper" itemscope itemtype="http://schema.org/Event">
 
+	  <div itemprop="location" itemscope itemtype="http://schema.org/Place" style="display:none;">
+  <div itemprop="name"><?echo $venue_name; ?></div>
+  <div itemprop="url"><?echo $$venue_website; ?></div>
+    <div itemprop="description"><?echo $venue_desc; ?></div>
+  
+  <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+      <span itemprop="addressLocality"><?echo $location;?></span>,
+    </div>
+	  </div>
 <div class="group"></div>      
 <div class="fbegrid fbegrid-pad">
 	<div class="fbecol-8-12">
 	<?php if ($event_image ){ ?>
 	<div class="fbe_single_event_image_wrap">
-	<img class="fbe-full-width" src="<?php echo $event_image; ?>" /> 
+	<img class="fbe-full-width"  itemprop="image" src="<?php echo $event_image; ?>" /> 
 	</div>	
 	<hr />	
 	<?php } ?>
-	<h1 class="fbe_single_title"> <?php echo $event_title; ?></h1>
-	<div id="fbe_single_date"><?php echo $event_start_date; if($event_start_time){echo ' @ '.$event_start_time; } ?>
-    <?php if($event_end_date){echo '&nbsp;&mdash;&nbsp;&nbsp;'. $event_end_date; } if($event_end_time){echo ' @ '.$event_end_time; } ?>
+	<h1 class="fbe_single_title" itemprop="name"> <?php echo $event_title; ?></h1>
+
+	<div id="fbe_single_date" itemprop="startDate"><?php echo $event_start_date; if($event_start_time){echo ' @ '.$event_start_time; } ?>
+    <span itemprop="endDate"><?php if($event_end_date){echo '&nbsp;&mdash;&nbsp;&nbsp;'. $event_end_date; } if($event_end_time){echo ' @ '.$event_end_time; } ?></span>
 	</div>
-	<p><?php echo $event_desc ; ?></p>
-    <?php //the_tags( '<div id="fbe_tags">', '', '</div>' ); ?> 
+	<p itemprop="description"><?php echo $event_desc ; ?></p>
+    <?php the_tags( '<div id="fbe_tags">', '', '</div>' ); ?> 
 	<?php if(get_option('fbe_geo_map') == 'true'){ 
 		if ($LatLng !=','){
 
@@ -54,7 +72,7 @@ $fbe800 = get_option("facebook_events_pro_version");  if($fbe800){  }else{ exit;
 
 
 		if($venue_name != $location){echo $location; }else{
-			$address = getaddress(get_fbe_field('geo_latitude'),get_fbe_field('geo_longitude'));
+			$address = getaddress(get_fbe_field('geo_latitude'),get_fbe_field('geo_longitude')); 
 			if($address)
 			{
 			echo $address;
@@ -69,10 +87,10 @@ $fbe800 = get_option("facebook_events_pro_version");  if($fbe800){  }else{ exit;
 		}
 	} 
 	?>
+
 <hr />
 <div class="group"></div>
-
-		<?php custom_fbe_post_nav(get_fbe_date('event_starts','m/d/Y')); ?>
+	<?php custom_fbe_post_nav(get_fbe_date('event_starts','m/d/Y')); ?>
 <div class="group"></div>
 <hr />
 
@@ -91,32 +109,32 @@ $fbe800 = get_option("facebook_events_pro_version");  if($fbe800){  }else{ exit;
 		<h2>Event Venue</h2>
 		<hr />	
 		<ul>
-		<?php if($venue_name){ ?><li><b>Venue </b><br/><?php echo $venue_name; ?></li><?php } ?>
+		<?php if($venue_name){ ?><li><b>Venue </b><br/><span itemprop="sponsor" itemtype="http://schema.org/Organization"><img style="display:none;" class="fbe-full-width"  itemprop="image" src="<?php echo $event_image; ?>" /> <span itemprop="name"><?php echo $venue_name; ?><span  itemprop="description" style="display:none;"><? echo $venue_desc; ?></span></span></li><?php } ?>
 		<?php if($venue_desc){ ?><li><b>About</b><br/><?php echo $venue_desc; ?></li><?php } ?>
 		<?php if($location){
 		if($location == $venue_name){
 		$address = getaddress(get_fbe_field('geo_latitude'),get_fbe_field('geo_longitude'));
 			if($address)
 			{
-			echo '<li><b>Location</b><br/>'.$address,'</li>';
+			echo '<li><b>Location</b><br/>'.$address.'</li>';
 			}
 			else
 			{
-				echo '<li><b>Location</b><br/>'.$location,'</li>';
+				echo '<li><b>Location</b><br/>'.$location.'</li>';
 			}
 		}else{
 			$address = getaddress(get_fbe_field('geo_latitude'),get_fbe_field('geo_longitude'));
 			if($address)
 			{
-			echo '<li><b>Location</b><br/>'.$address,'</li>';
+			echo '<li><b>Location</b><br/>'.$address.'</li>';
 			}
 		}	
 		?>
 		<?php } ?>
-		<?php if($venue_website){ ?><li><b>Website </b><br/><?php echo '<a href="'.$venue_website.'" target="_blank">'.$venue_website.'</a>'; ?></li><?php } ?>
+		<?php if($venue_website){ ?><li><b>Website </b><br/><?php echo '<a href="'.$venue_website.'" target="_blank"><span itemtype="http://schema.org/Organization"><span itemprop="url">'.$venue_website.'<span><span></a>'; ?></li><?php } ?>
 		<?php if($venue_phone){ ?><li><b>Phone</b><br/><?php echo $venue_phone; ?></li><?php } ?>
 		<?php if($venue_email){ ?><li><b>Email</b><br/><?php echo $venue_email; ?></li><?php } ?>
-		<?php if($facebook_page){ ?><li><b>Follow On</b><br/><a class="event_facebook_page" href="<?php echo $facebook_page; ?>" target="_blank">
+		<?php if($facebook_page){ ?><li><b>Follow On</b><br/><a class="event_facebook_page" itemprop="url" href="<?php echo $facebook_page; ?>" target="_blank">
 		<svg version="1.1" id="event_facebook_page" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="241.6 0 308.3 612" enable-background="new 241.6 0 308.3 612" xml:space="preserve">
 <path  d="M549.9,218.6H439.7V165c0,0-6.9-49.5,30.2-49.5c41.3,0,73,0,73,0V1.2H417.8c0,0-103.2,0-103.2,103.2
@@ -175,5 +193,8 @@ wp_reset_query();
 ?>
 
 <div class="group"></div> 
+</div>
+
+
 
 <?php get_footer(); ?>

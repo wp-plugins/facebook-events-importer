@@ -3,7 +3,7 @@
  * Plugin Name: Facebook Events Importer
  * Plugin URI: http://wpfbevents.com/
  * Description: A simple way to import Facebook events. 
- * Version: 2.3.7
+ * Version: 2.4.1
  * Author: <a href="http://volk.io/">Volk</a>
  * Author URI: http://volk.io/
   * License: GPL2
@@ -59,8 +59,7 @@ update_option('facebook_events_free','installed');
 
 add_action( 'admin_notices', 'fbe_free_admin_notice' );
 
-  
-
+ 
 
 function fbe_offer_admin_notice() {	}	
 
@@ -101,10 +100,12 @@ function fbe_offer_admin_notice() {	}
 		
   function import_fbe_scripts() {
 	  if ( is_admin() ) {
+
 	  wp_enqueue_style( 'fbe_style', plugins_url( '/assets/css/fb_import.css', __FILE__ ) );	
 	  wp_register_script('fbe_import', plugins_url( '/assets/js/facebook_import.js', __FILE__ ), array('jquery'), '1.0.0');
 	  wp_localize_script('fbe_import', 'fbeAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' )));	
 	  wp_enqueue_script('jquery-ui-datepicker');
+
       wp_enqueue_style('jquery-style-ui', plugins_url( '/assets/css/jquery-ui.css', __FILE__) );
       wp_enqueue_script( 'fbe_import' );
  		}
@@ -256,8 +257,8 @@ function fbe_import_settings(){
 
 
 	 <?php }else{ ?> 
-	   <div class="updated"  style="padding:10px; margin:0px 0px 10px 0px; border-color:#28a9e1;">
-		<span style="font-weight:900;"><img src="http://wpfbevents.com/wp-content/themes/wpfbevents/assets/images/twitter_bird.png" style="margin-right:10px; position:relative; top:5px; " /><a style="color:#28a9e1;" href="http://wpfbevents.com/" target="_blank">Pay with a tweet </a>to upgrade to PRO version!</span> 
+	  <div class="updated"  style="padding:10px; margin:0px 0px 10px 0px; border-color:#28a9e1;">
+	  <span style="font-weight:900;"><img src="http://wpfbevents.com/wp-content/uploads/edd/2016/07/icon-256x256-150x150.png" style="margin-right:10px; position:relative; top:5px; width:40px; height:auto;" /><a style="color:#28a9e1;" href="http://wpfbevents.com/" target="_blank">UPGRADE</a> to the PRO version for more features! </span>
       </div>
 	 More settings and options available when you <b><a href="http://wpfbevents.com/">upgrade to the <i>PRO</i> version</a></b>.
 	 <?php } ?>
@@ -426,7 +427,7 @@ $paged = (get_query_var('paged')) ? get_query_var('paged') : $page;
 		<div class="fbe_list_day"><?php echo $event_starts_day; ?></div>	
 	  </div>	
 	  <div class="fbe_col_title"><h2><?php echo limitFBETxt( $event_title,30); ?></h2></div>
-	  <div class="fbe_col_location"><h4><?php echo limitFBETxt($location,40); ?></h4></div>
+	  <div class="fbe_col_location"><h5><?php echo limitFBETxt($location,40); ?></h5></div>
 	  </div>	
 	  </div>
 	  </div>  
@@ -484,8 +485,11 @@ function wfei_plugin_settings_callback(){
 		}	
    }
 
-/* FACEBOOK EVENTS WIDGET  & SIDEBAR */
+/* FACEBOOK EVENTS WIDGETS & SIDEBAR */
 
+
+
+/* Events Widget */
 
 
 function fbe_widgets_init() {
@@ -572,7 +576,7 @@ $currentdate = date("Y-m-d",mktime(0,0,0,date("m"),date("d")-1,date("Y")));
 		<div class="fbe_list_day"><?php echo $event_starts_day; ?></div>	
 	  </div>	
 	  <div class="fbe_col_title"><h2><?php echo limitFBETxt( $event_title,35); ?></h2></div>
-	  <div class="fbe_col_location"><h4><?php echo limitFBETxt($location,100); ?></h4></div>
+	  <div class="fbe_col_location"><h5><?php echo limitFBETxt($location,100); ?></h5></div>
 	  </div>	
 	 
 	  </div>  
@@ -618,6 +622,8 @@ function register_fbe_widget() {
 
 
   function import_fbe_PRO_scripts() {
+  		   wp_enqueue_script('fbe_slick', plugins_url( '/assets/js/slick.min.js', __FILE__ ), array('jquery'), '1.0.0');
+		  wp_enqueue_script('fbe_slick');
     wp_register_script('fbe_pro_import', plugins_url( '/assets/js/facebook_events_pro.js', __FILE__ ), array('jquery'), '1.0.0');
     wp_localize_script('fbe_pro_import', 'fbeAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' )));	
 	wp_enqueue_script( 'fbe_pro_import' );
@@ -809,7 +815,7 @@ public static function wpfbe_header_output() {
 	           <?php self::wpfbe_generate_css('#load_more_fbe,.fbe-facebook-css > div ', 'background-color', 'wpfbe_secondary_color', '',''); ?>
 
 	           
-	           <?php self::wpfbe_generate_css('.fbe_col_location h4', 'color', 'wpfbe_tertiary_color', '',''); ?>
+	           <?php self::wpfbe_generate_css('.fbe_col_location h5', 'color', 'wpfbe_tertiary_color', '',''); ?>
 	           <?php self::wpfbe_generate_css('.fbe_list_date,.fbe_feat_event_link,#load_more_fbe', 'color', 'wpfbe_inverted_color', '',''); ?>
 	           <?php self::wpfbe_generate_css('.prev_fb_event,.next_fb_event,#fbe_sidebar a', 'color', 'wpfbe_primary_color', '',''); ?>
 	           <?php self::wpfbe_generate_css('.prev_fb_event:hover,.next_fb_event:hover', 'color', 'wpfbe_inverted_color', '',''); ?>
@@ -877,6 +883,82 @@ public static function wpfbe_generate_css( $selector, $style, $mod_name, $prefix
 add_action( 'wp_head' , array( 'wpfbe_customize' , 'wpfbe_header_output' ) );
 
 
+
+/* Shortcodes */
+
+
+/* slider shortcode */
+
+function wpfbslidershorty_func(  $atts ){
+$a = shortcode_atts( array(
+		'show' => -1,
+	), $atts );
+
+$a = $a['show'];
+	?>
+<div class="wpfbe_slider"><!--WPFBE SLIDER-->
+	<?php
+ global $post;
+		$currentdate = date("Y-m-d",mktime(0,0,0,date("m"),date("d")-1,date("Y")));
+		$args = array (
+                  	'meta_query'=> array(
+	                    array(
+	                      'key' => 'event_starts_sort_field',
+	                      'compare' => '>',
+	                      'value' => $currentdate,
+	                      'type' => 'DATE',
+	                    )),
+		    'post_type' => 'facebook_events',
+			'posts_per_page' => $a,
+	        'meta_key' => 'event_starts_sort_field',
+            'orderby' => 'meta_value',
+			'order' => 'ASC'
+			
+		);
+	
+		
+		$fbe_query = new WP_Query( $args );
+		 if( $fbe_query->have_posts() ): 
+		while ( $fbe_query->have_posts() ) : $fbe_query->the_post();
+		  $event_title = get_the_title();
+		  $event_desc =  get_the_content();
+		  $event_image = get_fbe_image('cover');
+		  $event_starts_month = get_fbe_date('event_starts','M');
+		  $event_starts_day = get_fbe_date('event_starts','j');
+		  $location = get_fbe_field('location');
+		  $permalink = get_permalink();
+		  $featured = get_post_meta($post->ID, 'feature_event', true);
+
+
+
+	?>
+
+		
+	  <div class="fbecol" data-id="<?php echo $permalink; ?>">	<!--WPFBE SLIDE-->
+	  <div class="fbe_list_image" style="background-image:url(<?php echo get_fbe_image('cover'); ?>);" >	  
+	  <div class="fbe_list_bar">
+	  <div class="fbe_list_date">
+	  	<div class="fbe_list_month"><?php echo $event_starts_month; ?></div>
+		<div class="fbe_list_day"><?php echo $event_starts_day; ?></div>	
+	  </div>	
+	  <div class="fbe_col_title"><h2><?php echo limitFBETxt( $event_title,30); ?></h2></div>
+	  <div class="fbe_col_location"><h5><?php echo limitFBETxt($location,40); ?></h5></div>
+	  </div>	
+	  </div>  
+	  </div> <!--WPFBE SLIDE End-->
+
+	<?php
+	     endwhile;     		
+	wp_reset_postdata(); 
+		 endif;
+
+	?>	
+</div><!--WPFBE SLIDER END-->
+<?php
+}
+?>
+<?php
+/* simple events shortcode */
 function wpfbshorty_func(  $atts ){
 $a = shortcode_atts( array(
 		'show' => -1,
@@ -927,7 +1009,7 @@ $a = $a['show'];
 		<div class="fbe_list_day"><?php echo $event_starts_day; ?></div>	
 	  </div>	
 	  <div class="fbe_col_title"><h2><?php echo limitFBETxt( $event_title,30); ?></h2></div>
-	  <div class="fbe_col_location"><h4><?php echo limitFBETxt($location,40); ?></h4></div>
+	  <div class="fbe_col_location"><h5><?php echo limitFBETxt($location,40); ?></h5></div>
 	  </div>	
 	  </div>
 	  </div>  
@@ -943,5 +1025,6 @@ $a = $a['show'];
 <?php
 }
 add_shortcode( 'wpfbevents', 'wpfbshorty_func' );
+add_shortcode( 'wpfbevents_slider', 'wpfbslidershorty_func' );
 
 ?>
