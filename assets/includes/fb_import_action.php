@@ -146,7 +146,6 @@ try {
 			'post_title' => wp_strip_all_tags($e->name),
 			'post_content' => wp_strip_all_tags($e->description),
 			'tags_input' => $category,
-			'post_date'	=> $startDate,
 					 );
              
              if($eventImage != $curEventImage ){insert_image($eventImage,$post_id); }
@@ -163,7 +162,6 @@ try {
 			'post_content' => wp_strip_all_tags($e->description),
 			'post_status' => 'publish',
 			'tags_input' => $category,
-			'post_date'	=> $startDate,
 					 );		
 	        
 	         $post_id = wp_insert_post( $post_information ); 
